@@ -7,7 +7,7 @@
  - add event listener to add files dynamically
 """
 
-from os import listdir, rename, mkdir, path
+from os import listdir, rename, mkdir, path, environ
 from os.path import isfile, join
 
 grouped_exts = {
@@ -19,7 +19,10 @@ grouped_exts = {
 }
 
 # Path goes here
-myPath = r'F:\Users\Chris\Documents\Archives\Downloads\\'
+if environ['COMPUTERNAME'] == 'CHRIS':
+    myPath = r'F:\Users\Chris\Documents\Archives\Downloads\\'
+elif environ['COMPUTERNAME'] == 'LAPTOP-GGAAAEHH':
+    myPath = r'C:\Users\Chris\Downloads\\'
 
 onlyFiles = [f for f in listdir(myPath) if isfile(join(myPath, f))]
 onlyFolders = [f for f in listdir(myPath) if not isfile(join(myPath, f))]
@@ -48,7 +51,7 @@ for file in onlyFiles:
         i += 1
 
     print(file + " => " + ext)
-    # # put the file in the appropriate directory
+    # put the file in the appropriate directory
     rename(myPath + original_file, myPath + ext + r'\\' + file)
 
 
