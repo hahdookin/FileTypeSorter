@@ -7,7 +7,7 @@
  - add event listener to add files dynamically
 """
 
-from os import listdir, rename, mkdir
+from os import listdir, rename, mkdir, path
 from os.path import isfile, join
 
 grouped_exts = {
@@ -26,6 +26,8 @@ onlyFolders = [f for f in listdir(myPath) if not isfile(join(myPath, f))]
 
 
 for file in onlyFiles:
+    original_ext = str(file.split(".")[-1]).lower()
+    original_file = file
     ext = str(file.split(".")[-1]).lower()
 
     for group, exts in grouped_exts.items():
@@ -38,9 +40,16 @@ for file in onlyFiles:
         print(ext + " folder created")
         onlyFolders.append(ext)
 
+    # Check if filename already exists
+    i = 1
+    while path.exists(myPath + ext + r'\\' + file):
+        # print(file)
+        file = f"{original_file.replace('.' + original_ext, f'[{i}].' + original_ext)}"
+        i += 1
+
     print(file + " => " + ext)
-    # put the file in the appropriate directory
-    rename(myPath + file, myPath + ext + r'\\' + file)
+    # # put the file in the appropriate directory
+    rename(myPath + original_file, myPath + ext + r'\\' + file)
 
 
 
